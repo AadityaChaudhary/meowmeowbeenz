@@ -2,6 +2,7 @@ package resolvers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"socialcredit/db"
 
@@ -15,6 +16,9 @@ type rateParams struct {
 }
 
 func rate(w http.ResponseWriter, req *http.Request) {
+	if req.Method != http.MethodPost {
+		log.Println("not post")
+	}
 	var p rateParams
 	err := json.NewDecoder(req.Body).Decode(&p)
 	if err != nil {

@@ -2,12 +2,16 @@ package resolvers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"socialcredit/db"
 	"strconv"
 )
 
 func profile(w http.ResponseWriter, req *http.Request) {
+	if req.Method != http.MethodGet {
+		log.Println("not get")
+	}
 	var id []string
 	var ok bool
 	if id, ok = req.URL.Query()["id"]; !ok || len(id) < 1 {

@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"socialcredit/db"
+	"socialcredit/resolvers"
 
 	"github.com/joho/godotenv"
 )
@@ -20,9 +21,10 @@ func main() {
 		log.Fatal(err)
 	}
 	//	user := &models.User{Name: "aadi", Picture: "", Score: 3.0}
-	var u db.User
-	db.DB.First(&u, 694284238361372433)
-	log.Println("name", u.Name)
+	//	var u db.User
+	//	db.DB.First(&u, 694284238361372433)
+	//	log.Println("name", u.Name)
 	//db.Create(user)
 	//log.Println("id", user.ID)
+	resolvers.Start()
 }

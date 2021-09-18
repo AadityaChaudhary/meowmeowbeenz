@@ -2,6 +2,7 @@ package resolvers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"socialcredit/db"
 	"strings"
@@ -14,7 +15,10 @@ type Object struct {
 	Name    string
 }
 
-func GetScore(w http.ResponseWriter, req *http.Request) {
+func getScores(w http.ResponseWriter, req *http.Request) {
+	if req.Method != http.MethodGet {
+		log.Println("not get")
+	}
 
 	var subjectID string
 	var objectsString string

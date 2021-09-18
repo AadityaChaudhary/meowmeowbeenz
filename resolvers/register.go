@@ -2,6 +2,7 @@ package resolvers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"socialcredit/db"
 )
@@ -16,7 +17,10 @@ type registerReturn struct {
 	ID    int
 }
 
-func postRegister(w http.ResponseWriter, req *http.Request) {
+func register(w http.ResponseWriter, req *http.Request) {
+	if req.Method != http.MethodPost {
+		log.Println("not post")
+	}
 	var p registerParams
 	err := json.NewDecoder(req.Body).Decode(&p)
 	if err != nil {
