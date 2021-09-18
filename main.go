@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"socialcredit/db"
@@ -10,7 +9,7 @@ import (
 )
 
 func main() {
-	fmt.Println("starting")
+	log.Println("starting")
 
 	err := godotenv.Load()
 	if err != nil {
@@ -20,4 +19,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	//	user := &models.User{Name: "aadi", Picture: "", Score: 3.0}
+	var u db.User
+	db.DB.First(&u, 694284238361372433)
+	log.Println("name", u.Name)
+	//db.Create(user)
+	//log.Println("id", user.ID)
 }
