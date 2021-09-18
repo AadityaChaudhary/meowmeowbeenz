@@ -40,4 +40,19 @@ func rate(w http.ResponseWriter, req *http.Request) {
 			db.DB.Create(&rating)
 		}
 	}
+
+	// trigger recount
+	var object db.User
+	db.DB.First(&object, p.ObjectID)
+	score, err := db.RecountScore(object)
+	if err != nil {
+		http.Error(w, "missing ID", http.StatusBadRequest)
+		return
+	}
+	object.Score = score
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(&object)
+
 }

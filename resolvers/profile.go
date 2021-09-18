@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func me(w http.ResponseWriter, req *http.Request) {
+func profile(w http.ResponseWriter, req *http.Request) {
 	var id []string
 	var ok bool
 	if id, ok = req.URL.Query()["id"]; !ok || len(id) < 1 {
