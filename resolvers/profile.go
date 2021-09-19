@@ -11,6 +11,7 @@ import (
 func profile(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodGet {
 		log.Println("not get")
+		return
 	}
 	var id []string
 	var ok bool
@@ -19,7 +20,7 @@ func profile(w http.ResponseWriter, req *http.Request) {
 		return
 
 	}
-	uid, err := strconv.ParseUint(id[0], 0, 32)
+	uid, err := strconv.ParseUint(id[0], 0, 64)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

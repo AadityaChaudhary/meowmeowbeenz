@@ -21,7 +21,7 @@ func Start(connString string) error {
 	}
 	DB.AutoMigrate(&User{}, &Rating{})
 	var u User
-	DB.FirstOrCreate(&u, User{Name: SYS_NAME})
+	DB.FirstOrCreate(&u, User{Name: SYS_NAME, Score: 2.5})
 	SystemID = u.ID
 	return nil
 }

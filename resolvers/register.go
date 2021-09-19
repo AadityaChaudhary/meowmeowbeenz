@@ -20,6 +20,7 @@ type registerReturn struct {
 func register(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodPost {
 		log.Println("not post")
+		return
 	}
 	var p registerParams
 	err := json.NewDecoder(req.Body).Decode(&p)
@@ -27,6 +28,8 @@ func register(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
+	log.Println("register", "picture string", p.Picture, "name", p.Name)
 
 	user := db.NewUser(p.Picture, p.Name)
 	if user == nil {

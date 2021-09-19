@@ -5,8 +5,6 @@ import (
 	"log"
 	"net/http"
 	"socialcredit/db"
-
-	"gorm.io/gorm"
 )
 
 type rateParams struct {
@@ -18,6 +16,7 @@ type rateParams struct {
 func rate(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodPost {
 		log.Println("not post")
+		return
 	}
 	var p rateParams
 	err := json.NewDecoder(req.Body).Decode(&p)
@@ -25,6 +24,7 @@ func rate(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	log.Println("subjectID", p.SubjectID, "objectID", p.ObjectID, "score", p.Score)
 
 	if p.ObjectID == 0 || p.SubjectID == 0 {
 		http.Error(w, "missing ID", http.StatusBadRequest)
@@ -38,12 +38,12 @@ func rate(w http.ResponseWriter, req *http.Request) {
 	// check if the rating exists
 	rating := db.Rating{Subject: p.SubjectID, Object: p.ObjectID, Score: p.Score}
 
-	if err = db.DB.Model(&rating).Where("subject = ?", p.SubjectID).Where("object = ?", p.ObjectID).Update("score", p.Score).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			// create user
-			db.DB.Create(&rating)
-		}
+	if db.DB.Model(&rating).Where("subject = ?", p.SubjectID).Where("object = ?", p.ObjectID).Update("score", p.Score).RowsAffected == 0 {
+		log.Println("rating doesnt exist")
+		// create user
+		db.DB.Create(&rating)
 	}
+	log.Println("after executed update")
 
 	// trigger recount
 	var object db.User

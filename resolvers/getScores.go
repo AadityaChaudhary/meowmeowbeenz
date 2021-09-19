@@ -18,6 +18,7 @@ type Object struct {
 func getScores(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodGet {
 		log.Println("not get")
+		return
 	}
 
 	var subjectID string

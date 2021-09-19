@@ -1,6 +1,9 @@
 package db
 
-import "errors"
+import (
+	"errors"
+	"log"
+)
 
 type Score struct {
 	Score  float32
@@ -23,6 +26,7 @@ func RecountScore(object User) (float32, error) {
 		scores = append(scores, Score{Score: u.Score, Rating: rating.Score})
 		total += u.Score
 	}
+	log.Println("scores", scores)
 
 	var finalScore float32
 	for _, score := range scores {
